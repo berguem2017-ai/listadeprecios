@@ -36,8 +36,7 @@ yarn-error.log*
 .env.production
 .env.*.local
 
-# Drizzle generated migrations (keep the folder but not the SQL files)
-drizzle/*.sql
+# Drizzle migrations are committed so Railway can run them on startup
 
 # vercel
 .vercel
