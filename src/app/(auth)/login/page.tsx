@@ -17,13 +17,14 @@ export default function LoginPage() {
     e.preventDefault()
     setError("")
     setLoading(true)
-    const { error } = await signIn.email({ email, password })
+    const { data, error } = await signIn.email({ email, password })
     setLoading(false)
     if (error) {
       setError("Email o contraseña incorrectos.")
       return
     }
-    router.push("/proveedor")
+    const role = (data?.user as any)?.role
+    router.push(role === "proveedor" ? "/proveedor" : "/")
   }
 
   return (

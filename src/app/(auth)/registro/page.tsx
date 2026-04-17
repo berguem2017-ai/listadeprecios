@@ -24,7 +24,8 @@ export default function RegistroPage() {
       name: form.name,
       email: form.email,
       password: form.password,
-    })
+      role: form.role,
+    } as any)
     setLoading(false)
     if (error) {
       setError("No se pudo crear la cuenta. Verificá los datos.")
