@@ -8,6 +8,13 @@
       "when": 1776451365399,
       "tag": "0000_keen_namora",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1776459757734,
+      "tag": "0001_yummy_vargas",
+      "breakpoints": true
     }
   ]
 }

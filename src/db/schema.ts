@@ -20,7 +20,7 @@ export const subscriptionStatusEnum = pgEnum("subscription_status", ["active", "
 // ─── Usuarios ─────────────────────────────────────────────────────────────────
 
 export const users = pgTable("users", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").notNull().default(false),
@@ -31,10 +31,10 @@ export const users = pgTable("users", {
 })
 
 export const sessions = pgTable("sessions", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: text("id").primaryKey(),
   expiresAt: timestamp("expires_at").notNull(),
   token: text("token").notNull().unique(),
-  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   ipAddress: text("ip_address"),
   userAgent: text("user_agent"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -42,8 +42,8 @@ export const sessions = pgTable("sessions", {
 })
 
 export const accounts = pgTable("accounts", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  id: text("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   accountId: text("account_id").notNull(),
   providerId: text("provider_id").notNull(),
   accessToken: text("access_token"),
@@ -55,7 +55,7 @@ export const accounts = pgTable("accounts", {
 })
 
 export const verifications = pgTable("verifications", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: text("id").primaryKey(),
   identifier: text("identifier").notNull(),
   value: text("value").notNull(),
   expiresAt: timestamp("expires_at").notNull(),
@@ -66,7 +66,7 @@ export const verifications = pgTable("verifications", {
 
 export const suppliers = pgTable("suppliers", {
   id: uuid("id").primaryKey().defaultRandom(),
-  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   slug: text("slug").notNull().unique(),
   description: text("description"),
@@ -127,7 +127,7 @@ export const priceHistory = pgTable(
     currency: text("currency").notNull().default("ARS"),
     method: updateMethodEnum("method").notNull(),
     fileName: text("file_name"),
-    updatedBy: uuid("updated_by").references(() => users.id, { onDelete: "set null" }),
+    updatedBy: text("updated_by").references(() => users.id, { onDelete: "set null" }),
     createdAt: timestamp("created_at").notNull().defaultNow(),
   },
   (t) => [
@@ -152,7 +152,7 @@ export const updateLogs = pgTable(
     productsSkipped: integer("products_skipped").notNull().default(0),
     status: text("status").notNull().default("pending"),
     errorMessage: text("error_message"),
-    updatedBy: uuid("updated_by").references(() => users.id, { onDelete: "set null" }),
+    updatedBy: text("updated_by").references(() => users.id, { onDelete: "set null" }),
     createdAt: timestamp("created_at").notNull().defaultNow(),
     completedAt: timestamp("completed_at"),
   },
@@ -203,7 +203,7 @@ export const paymentEvents = pgTable("payment_events", {
 
 export const favorites = pgTable("favorites", {
   id: uuid("id").primaryKey().defaultRandom(),
-  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   productId: uuid("product_id").notNull().references(() => products.id, { onDelete: "cascade" }),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 })
@@ -214,7 +214,7 @@ export const supplierFollowers = pgTable(
   "supplier_followers",
   {
     id: uuid("id").primaryKey().defaultRandom(),
-    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
     supplierId: uuid("supplier_id").notNull().references(() => suppliers.id, { onDelete: "cascade" }),
     notifyPriceChanges: boolean("notify_price_changes").notNull().default(true),
     createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -231,7 +231,7 @@ export const notifications = pgTable(
   "notifications",
   {
     id: uuid("id").primaryKey().defaultRandom(),
-    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
     supplierId: uuid("supplier_id").references(() => suppliers.id, { onDelete: "set null" }),
     type: text("type").notNull().default("price_update"),
     title: text("title").notNull(),
