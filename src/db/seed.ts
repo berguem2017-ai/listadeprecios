@@ -5,6 +5,7 @@ async function seed() {
   console.log("Sembrando datos de demo...")
 
   const [user] = await db.insert(users).values({
+    id: crypto.randomUUID(),
     name: "Materiales Rodríguez",
     email: "admin@materialesrodriguez.com.ar",
     role: "proveedor",
