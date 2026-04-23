@@ -29,7 +29,7 @@ export default function ProductosPage() {
   useEffect(() => {
     fetch("/api/proveedor/productos")
       .then((r) => r.json())
-      .then(setProducts)
+      .then((data) => setProducts(Array.isArray(data) ? data : []))
       .finally(() => setLoading(false))
   }, [])
 

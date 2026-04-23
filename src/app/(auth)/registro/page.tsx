@@ -31,7 +31,12 @@ export default function RegistroPage() {
       setError("No se pudo crear la cuenta. Verificá los datos.")
       return
     }
-    router.push(form.role === "proveedor" ? "/proveedor" : "/")
+    if (form.role === "proveedor") {
+      await fetch("/api/proveedor/setup", { method: "POST" })
+      router.push("/proveedor")
+    } else {
+      router.push("/")
+    }
   }
 
   return (
